@@ -1,0 +1,12 @@
+#Akamai
+edgerc_path = "~/.edgerc"
+contractid = "$AKAM_CONTRACT_ID"
+groupid = "$AKAM_GROUP_ID"
+notification_email = "$GTM_NOTIFICATION_EMAIL"
+gtm_domain_name = "$GTM_DOMAIN_NAME"
+gtm_property_name = "$GTM_PROPERTY_NAME"
+
+#region IPs
+apwest = "$APWEST"
+cacentral = "$CACENTRAL"
+

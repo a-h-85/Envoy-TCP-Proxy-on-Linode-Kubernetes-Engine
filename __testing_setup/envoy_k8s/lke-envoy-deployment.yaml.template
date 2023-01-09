@@ -1,0 +1,92 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: envoy
+  labels:
+    name: envoy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy
+  namespace: envoy
+  labels:
+    app: envoy
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: https
+      protocol: TCP
+    - name: cstm
+      port: $ENVOY_CSTM_PORT
+      targetPort: cstm
+      protocol: TCP
+  selector:
+    app: envoy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy
+  namespace: envoy
+  labels:
+    app: envoy
+spec:
+  selector:
+    matchLabels:
+      app: envoy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: envoy
+    spec:
+      containers:
+        - name: envoy
+          image: ahaberl2022/lke-envoy:9
+          imagePullPolicy: Always
+          env:
+            - name: "ENVOY_CSTM_PORT"
+              value: "$ENVOY_CSTM_PORT"
+            - name: "ENVOY_FWD_PORT"
+              value: "$ENVOY_FWD_PORT"
+            - name: "ENVOY_FWD_EHN"
+              value: "$ENVOY_FWD_EHN"
+          ports:
+            - name: envoy-admin
+              containerPort: 9901
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+            - name: cstm
+              containerPort: $ENVOY_CSTM_PORT
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1.0"
+            limits:
+              memory: "2Gi"
+              cpu: "2.0"
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: envoy
+  namespace: envoy
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: envoy
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  targetCPUUtilizationPercentage: 50
+

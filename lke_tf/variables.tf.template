@@ -1,0 +1,19 @@
+variable "cluster_name" {
+  description = "The name for the LKE cluster"
+  default     = "$LKE_CLUSTER_NAME"
+}
+
+variable "region" {
+  description = "The region for the LKE cluster, dynamically set by the modules"
+  default     = ""
+}
+
+variable "token" {
+  description = "The Linode Personal Access Token"
+  default     = "$TOKEN"
+}
+
+variable "cluster_label" {
+  description = "The label for the LKE cluster, dynamically created from cluster name and region"
+  default     = ""
+}
