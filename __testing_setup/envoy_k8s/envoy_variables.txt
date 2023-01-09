@@ -1,3 +1,0 @@
-ENVOY_CSTM_PORT:  5555
-ENVOY_FWD_PORT:  443
-ENVOY_FWD_EHN:  cdn.www.haberl.io.edgekey.net

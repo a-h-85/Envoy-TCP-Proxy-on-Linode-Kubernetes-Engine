@@ -126,7 +126,7 @@ They are available in Github.
 - Terraform https://www.terraform.io/ 
 - Docker https://www.docker.com/ 
 
-## Envirnment variables set by the shell scripts to dynamicall create the setup
+## Environment variables set by the shell scripts to dynamicall create the setup
 - Linode
   - $LKE_CLUSTER_NAME : The name of the LKE cluster
   - $TOKEN : The Linode Personal Access Token
